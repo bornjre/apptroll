@@ -14,6 +14,7 @@ type App interface {
 	GetSockd() any
 	GetEventBus() any
 	GetSequencer() any
+	GetFileStore() any
 }
 
 type AppType struct {
@@ -29,7 +30,10 @@ type AppType struct {
 
 	OnPageRequest func(ctx *gin.Context) (bool, error)
 	OnFileRequest func(ctx *gin.Context) (bool, error)
-	OnAppInit     func(id int64) error
+	// only called if this app is selected as root app
+	OnRootMount func() *gin.Engine
+
+	OnAppInit func(id int64) error
 
 	// default template /z/apps/<app_slug>/<project_id>
 	AppProjectURLTpl string
